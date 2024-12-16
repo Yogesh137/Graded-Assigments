@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}Products Page{% endblock %}
+
+{% block content %}
+    <h3>Product List</h3>
+    <ul>
+        {% for product in products %}
+            <li>
+                {{ product.id }} - {{ product.name }} - ${{ product.price }}
+                <a href="{{ url_for('product_routes.update', product_id=product.id) }}">Update</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
