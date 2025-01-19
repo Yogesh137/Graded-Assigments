@@ -1,0 +1,84 @@
+
+Git and GitHub Workflow Exercise
+
+1. Project Initialization:
+
+   Steps:
+   a. Create a new directory for project:
+      $ mkdir sample-project
+      $ cd sample-project
+
+   b. Initialize a Git repository:
+      $ git init
+
+   c. Add a basic project:
+      $ touch index.html
+
+   d. Commit the initial project:
+      $ git add .
+      $ git commit -m "Initial commit"
+
+   e. Create a new repository on GitHub called "sample-project".
+
+   f. Link the local repository to the remote GitHub repository:
+      $ git remote add origin https://github.com/username/sample-project.git
+
+   g. Push the initial commit to GitHub:
+      $ git push -u origin main
+
+2. Feature Addition:
+   - Create a new README.md file and add an introduction to the project.
+
+   Steps:
+   a. Create the README.md file:
+      $ touch README.md
+
+   b. Edit the README.md file and add the following content:
+      # Sample Project
+      This is a sample project to demonstrate Git and GitHub workflow.
+
+   c. Add and commit the changes:
+      $ git add README.md
+      $ git commit -m "Added README.md with project intro"
+
+3. Branch Management:
+   - Create a new branch, push it to GitHub, and manage the feature.
+
+   Steps:
+   a. Create a new branch named "feature/update-readme":
+      $ git checkout -b feature/update-readme
+
+   b. Make the necessary changes to the README.md file (if additional edits are needed).
+
+   c. Add and commit the changes:
+      $ git add README.md
+      $ git commit -m "Updated README.md with more project details"
+
+   d. Push the new branch to GitHub:
+      $ git push -u origin feature/update-readme
+
+4. Merge Changes:
+   - After the review, merge the feature branch into the main branch.
+
+   Steps:
+   a. Switch to the main branch:
+      $ git checkout main
+
+   b. Pull the latest changes from the remote main branch:
+      $ git pull origin main
+
+   c. Merge the feature branch into main:
+      $ git merge feature/update-readme
+
+   d. Push the merged changes to the remote repository:
+      $ git push origin main
+
+5. Branch Cleanup:
+   - Delete the feature branch locally and remotely after the merge.
+
+   Steps:
+   a. Delete the branch locally:
+      $ git branch -d feature/update-readme
+
+   b. Delete the branch remotely:
+      $ git push origin --delete feature/update-readme
