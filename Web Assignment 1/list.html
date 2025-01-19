@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>To-Do List Application</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f9;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .container {
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      width: 100%;
+      max-width: 400px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+
+    .task-input {
+      display: flex;
+      margin-bottom: 20px;
+    }
+
+    .task-input input {
+      flex: 1;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      outline: none;
+    }
+
+    .task-input button {
+      padding: 10px;
+      background-color: #5cb85c;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .task-input button:hover {
+      background-color: #4cae4c;
+    }
+
+    .tasks {
+      list-style: none;
+      padding: 0;
+    }
+
+    .tasks li {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #f9f9f9;
+      margin-bottom: 10px;
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #ddd;
+    }
+
+    .tasks li.completed {
+      text-decoration: line-through;
+      color: #aaa;
+      background-color: #eaeaea;
+    }
+
+    .tasks li button {
+      margin-left: 10px;
+      background-color: #d9534f;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      padding: 5px;
+    }
+
+    .tasks li button:hover {
+      background-color: #c9302c;
+    }
+
+    .task-count {
+      text-align: center;
+      margin-top: 10px;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>To-Do List</h1>
+    <div class="task-input">
+      <input type="text" id="taskInput" placeholder="Add a new task">
+      <button onclick="addTask()">Add</button>
+    </div>
+    <ul class="tasks" id="taskList"></ul>
+    <div class="task-count" id="taskCount">0 tasks remaining</div>
+  </div>
+
+  <script>
+    let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+
+    function renderTasks() {
+      const taskList = document.getElementById('taskList');
+      taskList.innerHTML = '';
+
+      tasks.forEach((task, index) => {
+        const taskItem = document.createElement('li');
+        taskItem.className = task.completed ? 'completed' : '';
+
+        const taskName = document.createElement('span');
+        taskName.textContent = task.name;
+        taskName.onclick = () => toggleTask(index);
+
+        const editButton = document.createElement('button');
+        editButton.textContent = 'Edit';
+        editButton.onclick = () => editTask(index);
+
+        const deleteButton = document.createElement('button');
+        deleteButton.textContent = 'Delete';
+        deleteButton.onclick = () => deleteTask(index);
+
+        taskItem.append(taskName, editButton, deleteButton);
+        taskList.appendChild(taskItem);
+      });
+
+      updateTaskCount();
+      localStorage.setItem('tasks', JSON.stringify(tasks));
+    }
+
+    function addTask() {
+      const taskInput = document.getElementById('taskInput');
+      const taskName = taskInput.value.trim();
+      if (taskName) {
+        tasks.push({ name: taskName, completed: false });
+        taskInput.value = '';
+        renderTasks();
+      }
+    }
+
+    function toggleTask(index) {
+      tasks[index].completed = !tasks[index].completed;
+      renderTasks();
+    }
+
+    function editTask(index) {
+      const newTaskName = prompt('Edit task:', tasks[index].name);
+      if (newTaskName !== null) {
+        tasks[index].name = newTaskName.trim();
+        renderTasks();
+      }
+    }
+
+    function deleteTask(index) {
+      tasks.splice(index, 1);
+      renderTasks();
+    }
+
+    function updateTaskCount() {
+      const pendingTasks = tasks.filter(task => !task.completed).length;
+      document.getElementById('taskCount').textContent = `${pendingTasks} tasks remaining`;
+    }
+
+    renderTasks();
+  </script>
+</body>
+</html>
