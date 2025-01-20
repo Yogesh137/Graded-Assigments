@@ -1,0 +1,36 @@
+Q1. List of names of employees employed after Jan1,2021
+
+A. 	SELECT Name
+	FROM Employees
+	WHERE HireDate > '2021-01-01';
+
+Q2. Average salaries of employees in each dept
+
+A.	SELECT d.DepartmentName, AVG(e.Salary) AS AverageSalary
+	FROM Employees e
+	JOIN Departments d ON e.DepartmentID = d.DepartmentID
+	GROUP BY d.DepartmentName;
+
+Q3. Dept name where total salary is highest
+
+A.	SELECT d.DepartmentName
+	FROM Employees e
+	JOIN Departments d ON e.DepartmentID = d.DepartmentID
+	GROUP BY d.DepartmentName
+	ORDER BY SUM(e.Salary) DESC
+	LIMIT 1;
+
+Q4. List all depts that currently have no employees assigned
+
+A.	SELECT DepartmentName
+	FROM Departments
+	WHERE DepartmentID NOT IN (
+    	SELECT DISTINCT DepartmentID
+    	FROM Employees
+	);
+
+Q5. fetch all employee details along with dept names
+
+A.	SELECT e.EmployeeID, e.Name, e.Salary, e.HireDate, d.DepartmentName
+	FROM Employees e
+	JOIN Departments d ON e.DepartmentID = d.DepartmentID;
